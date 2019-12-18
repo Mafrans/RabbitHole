@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../css/bootstrap-grid.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/article.css">
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <nav>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 col-12 nav-col">
+                <div class="nav-content">
+                    <a href="./index.html" class="clear-link" style="display: inherit;">
+                        <img src="../icons/logo.svg" class="logo" alt="Logo">
+                        <h1 class="text-20px">
+                            Rabbit Hole
+                        </h1>
+                    </a>
+
+                    <div class="hamburger">
+                        <div class="top"></div>
+                        <div class="middle"></div>
+                        <div class="middle other"></div>
+                        <div class="bottom"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="dropdown">
+            <div class="content row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 col-12">
+                    <ul class="light">
+                        <a href="index.html">
+                            <li class="home">
+                                <img src="../icons/home.svg" class="icon" alt="Home menu icon" srcset="">
+                                <h2 class="text-20px">Home</h2>
+                            </li>
+                        </a>
+                        <a href="bookmarks.html">
+                            <li class="bookmarks">
+                                <img src="../icons/bookmarks.svg" class="icon" alt="Bookmarks menu icon" srcset="">
+                                <h2 class="text-20px">Bookmarks</h2>
+                            </li>
+                        </a>
+                        <a href="./account.html">
+                            <li class="account">
+                                <img src="../icons/account.svg" class="icon" alt="Account menu icon" srcset="">
+                                <h2 class="text-20px">Your Account</h2>
+                            </li>
+                        </a>
+                        <a href="about.html">
+                            <li class="about">
+                                <img src="../icons/about.svg" class="icon" alt="About menu icon" srcset="">
+                                <h2 class="text-20px">About Us</h2>
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-xl-7 col-md-8 col-12">
+            <div class="container">
+                <div class="article">
+                    <h1 class="regular nav-margin mb-3">{{title}}</h1>
+                    <div class="image-container">
+                        <img src="{{img}}" alt="">
+                    </div>
+                    <div class="light source-container text-18px mt-3">
+                        <p>{{source}}</p>
+                        <p>{{date}}</p>
+                    </div>
+                    <p class="light mt-4 content">{{content}}</p>
+                    </a>
+                </div>
+
+                <hr>
+                <div class="recommended article-list">
+                    <h1 class="regular mb-5">Similar Stories</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-2"></div>
+    </div>
+
+
+
+    <script src="../js/hamburger.js"></script>
+    <script src="../js/articles.js"></script>
+
+    <script>
+        initializeHamburger();
+        cacheArticles();
+        initializeScrolling();
+
+        let el = document.querySelector(".article");
+
+        let urlParams = new URLSearchParams(window.location.search);
+        let id = urlParams.get('id');
+
+        let article = getArticle(id);
+
+        let html = el.innerHTML;
+        html = html.replace(/{{title}}/g, article.title);
+        html = html.replace(/{{img}}/g, article.img);
+        html = html.replace(/{{content}}/g, article.content);
+        html = html.replace(/{{author}}/g, article.author);
+        html = html.replace(/{{source}}/g, article.source);
+        html = html.replace(/{{date}}/g, article.date);
+        html = html.replace(/{{id}}/g, article.id);
+
+        el.innerHTML = html;
+
+
+        let recommended = document.querySelectorAll(".recommended .article-tiny");
+        for (let rec of recommended) {
+            let recommendedArticle = getRandomArticle();
+            let html = rec.outerHTML;
+            html = html.replace(/{{title}}/g, recommendedArticle.title);
+            html = html.replace(/{{img}}/g, recommendedArticle.img);
+            html = html.replace(/{{id}}/g, recommendedArticle.id);
+
+            let content = recommendedArticle.content;
+
+            if (content.length > 300) content = content.substring(0, 100) + "...";
+            html = html.replace(/{{content}}/g, content);
+
+            rec.outerHTML = html;
+        }
+
+        
+        // Infinite Scrolling
+
+        var templateHTML;
+
+        function initializeScrolling() {
+            templateHTML = `
+            <a href="./article.html?id={{id}}" class="article-tiny row clear-link" style="margin-bottom: 80px">
+                <div class="col-sm-3 col-12">
+                    <div class="image-container">
+                        <img src="{{img}}" alt="">
+                    </div>
+                </div>
+                <div class="col-sm-9 col-12 content">
+                    <h1 class="regular text-24px mb-2">{{title}}</h1>
+                    <p class="light text-20px">{{content}}</p>
+                </div>
+            </a>
+            `;
+
+            generateNew();
+
+            document.addEventListener("scroll", (event) => {
+                let normalizedHeight = (document.documentElement.scrollTop + window.innerHeight) / document.body
+                    .clientHeight;
+
+                if (normalizedHeight > 0.9) {
+                    generateNew();
+                }
+            })
+        }
+
+        function generateNew() {
+            let recommendedDiv = document.querySelector(".article-list");
+            recommendedDiv.innerHTML += generateRandomArticles(templateHTML, 5);
+            console.log("new")
+            console.log(templateHTML);
+        }
+           
+    </script>
+</body>
+
+</html>

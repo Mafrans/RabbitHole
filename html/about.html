@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../css/bootstrap-grid.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/about.css">
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <nav>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 col-12 nav-col">
+                <div class="nav-content">
+                    <a href="./index.html" class="clear-link" style="display: inherit;">
+                        <img src="../icons/logo.svg" class="logo" alt="Logo">
+                        <h1 class="text-20px">
+                            Rabbit Hole
+                        </h1>
+                    </a>
+
+                    <div class="hamburger">
+                        <div class="top"></div>
+                        <div class="middle"></div>
+                        <div class="middle other"></div>
+                        <div class="bottom"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="dropdown">
+            <div class="content row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 col-12">
+                    <ul class="light">
+                        <a href="index.html">
+                            <li class="home">
+                                <img src="../icons/home.svg" class="icon" alt="Home menu icon" srcset="">
+                                <h2 class="text-20px">Home</h2>
+                            </li>
+                        </a>
+                        <a href="bookmarks.html">
+                            <li class="bookmarks">
+                                <img src="../icons/bookmarks.svg" class="icon" alt="Bookmarks menu icon" srcset="">
+                                <h2 class="text-20px">Bookmarks</h2>
+                            </li>
+                        </a>
+                        <a href="./account.html">
+                            <li class="account">
+                                <img src="../icons/account.svg" class="icon" alt="Account menu icon" srcset="">
+                                <h2 class="text-20px">Your Account</h2>
+                            </li>
+                        </a>
+                        <a href="./about.html">
+                            <li class="about active">
+                                <img src="../icons/about.svg" class="icon" alt="About menu icon" srcset="">
+                                <h2 class="text-20px">About Us</h2>
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-xl-7 col-md-8 col-12">
+            <div class="container">
+                <div class="row nav-margin">
+                    <div class="col-md-6">
+                        <img src="../icons/about-rabbit.svg" style="width: 100%" alt="">
+                    </div>
+                    <div class="col-md-6">
+                        <h1 style="color: var(--primary-600)">About Rabbit Hole</h1>
+                        <hr>
+                        <p class="text-20px">At Rabbit Hole we are dedicated to finding you interesting stories that pull you in and keeps you thinking.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-2"></div>
+    </div>
+
+
+
+    <script src="../js/hamburger.js"></script>
+    <script src="../js/articles.js"></script>
+
+    <script>
+        initializeHamburger();
+    </script>
+</body>
+
+</html>

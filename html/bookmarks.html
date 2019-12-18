@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../css/bootstrap-grid.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bookmarks.css">
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <nav>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 col-12 nav-col">
+                <div class="nav-content">
+                    <a href="./index.html" class="clear-link" style="display: inherit;">
+                        <img src="../icons/logo.svg" class="logo" alt="Logo">
+                        <h1 class="text-20px">
+                            Rabbit Hole
+                        </h1>
+                    </a>
+
+                    <div class="hamburger">
+                        <div class="top"></div>
+                        <div class="middle"></div>
+                        <div class="middle other"></div>
+                        <div class="bottom"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="dropdown">
+            <div class="content row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 col-12">
+                    <ul class="light">
+                        <a href="index.html">
+                            <li class="home">
+                                <img src="../icons/home.svg" class="icon" alt="Home menu icon" srcset="">
+                                <h2 class="text-20px">Home</h2>
+                            </li>
+                        </a>
+                        <a href="./bookmarks.html">
+                            <li class="bookmarks active">
+                                <img src="../icons/bookmarks.svg" class="icon" alt="Bookmarks menu icon" srcset="">
+                                <h2 class="text-20px">Bookmarks</h2>
+                            </li>
+                        </a>
+                        <a href="./account.html">
+                            <li class="account">
+                                <img src="../icons/account.svg" class="icon" alt="Account menu icon" srcset="">
+                                <h2 class="text-20px">Your Account</h2>
+                            </li>
+                        </a>
+                        <a href="about.html">
+                            <li class="about">
+                                <img src="../icons/about.svg" class="icon" alt="About menu icon" srcset="">
+                                <h2 class="text-20px">About Us</h2>
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-7 col-12">
+            <div class="container">
+                <header class="text-18px light">
+                    <h1 class="text-36px semibold row"><img src="../icons/bookmarks%20brown.svg" style="width: 1em">Bookmarks</h1>
+                    <p>These are the stories you've chosen to save.</p>
+                    <p>Be careful so you don't lose them!</p>
+                    <hr>
+                </header>
+
+                <div class="row">
+                    <div class="col-lg-12 article-list no-padding">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-2"></div>
+    </div>
+
+
+
+    <script src="../js/hamburger.js"></script>
+    <script src="../js/articles.js"></script>
+
+    <script>
+        initializeHamburger();
+        cacheArticles();
+        initializeScrolling();
+
+
+        let articles = document.querySelectorAll(".article");
+
+        for (let el of articles) {
+            let article = getRandomArticle();
+            let html = el.outerHTML;
+            html = html.replace(/{{title}}/g, article.title);
+            html = html.replace(/{{img}}/g, article.img);
+            html = html.replace(/{{id}}/g, article.id);
+
+            let content = article.content;
+
+            if (content.length > 300) content = content.substring(0, 300) + "...";
+            html = html.replace(/{{content}}/g, content);
+
+            el.outerHTML = html;
+        }
+
+
+        // Infinite Scrolling
+
+        var templateHTML;
+
+        function initializeScrolling() {
+            templateHTML = `
+            <a href="article.html?id={{id}}" class="article article-small row">
+                <div class="col-lg-6 column no-padding">
+                    <div class="image-container">
+                        <img class="bookmark" src="../icons/bookmark.svg">
+                        <img class="thumbnail" src="{{img}}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 column">
+                    <div class="text-container">
+                        <h1 class="text-24px regular mb-3">{{title}}</h1>
+                        <p class="light">{{content}}</p>
+                    </div>
+                </div>
+            </a>
+            `;
+
+            generateNew();
+        }
+
+        function generateNew() {
+            let target = document.querySelector(".article-list");
+            console.log(templateHTML);
+            target.innerHTML += generateRandomArticles(templateHTML, 5);
+            console.log("new")
+            console.log(templateHTML);
+        }
+    </script>
+</body>
+
+</html>
